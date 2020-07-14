@@ -4,14 +4,22 @@ from .library.contract import Contract
 
 
 MAINNET = "https://api.etherscan.io/api"
+ROPSTEN = "https://api-ropsten.etherscan.io/api"
 
 
 class Etherscan():
 
-    def __init__(self, apikey: str, base_uri: str = MAINNET):
-        self.set_clients(apikey, base_uri)
+    @property
+    def account(self) -> Account:
+        # account controller
+        return self._account
 
-    def set_clients(self, apikey: str, base_uri: str = MAINNET):
+    @property
+    def contract(self) -> Contract:
+        # contract controller
+        return self._contract
+
+    def __init__(self, apikey: str, base_uri: str = MAINNET):
         client = Client(apikey, base_uri)
-        self.account = Account(client)
-        self.contract = Contract(client)
+        self._account = Account(client)
+        self._contract = Contract(client)
